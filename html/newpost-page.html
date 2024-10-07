@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Post</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <style>
+        .sampleColors {
+            color: white;
+            /* https://colorhunt.co/palette/987d9abb9ab1eeceb9fefbd8 */
+            /* #987D9A */
+            /* #BB9AB1 */
+            /* #EECEB9 */
+            /* #FEFBD8 */
+        }
+
+        body {
+            padding: 0;
+            margin: 0;
+            background-color: #BB9AB1;
+        }
+
+        h1 {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: inline-block;
+        }
+
+        p {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  
+        }
+
+        .mobileFont {
+            font-size: small;
+        }
+
+        .nartyMsg {
+            display: inline-block;
+            user-select: none;
+        }
+
+        .topDiv {
+            background-color: #987D9A;
+            padding: .5rem;
+            color: white; 
+            top: 0;
+            position: sticky;
+            height: 3rem;
+            z-index: 5;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+
+        .toolsDropdown {
+            color: white;
+            display: inline-block;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .toolsDropdownDiv {
+            position: sticky;
+            top: 4rem;
+            background-color: #816a83;
+            height: 5rem;
+            width: 100%;
+            z-index: 1;
+            animation: dropdownScaling .5s;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        @keyframes dropdownScaling {
+            0% {
+                height: 0;
+            }
+            100% {
+                height: 5rem;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .click {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .homeButton {
+            color: white;
+            margin: 0;
+            margin-top: 1.75rem;
+            animation: marginPushdown .5s;
+        }
+
+        .newPostButton {
+            color: white;
+            margin: 0;
+            margin-top: 1.75rem;
+            animation: marginPushdown .5s;
+        }
+
+        .searchButton {
+            color: white;
+            margin: 0; 
+            margin-top: 1.75rem;  
+            animation: marginPushdown .5s;
+        }
+
+        .aboutButton {
+            color: white;
+            margin: 0; 
+            margin-top: 1.75rem;  
+            animation: marginPushdown .5s;
+        }
+
+        @keyframes marginPushdown {
+            0% {
+                margin-top: 0;
+                color: rgba(255, 255, 255, 0);
+            }
+            100% {
+                margin-top: 1.75rem;
+                color: white;
+            }
+        }
+
+        .mainContainer {
+            margin: 2rem;
+            padding: 1rem;
+            background-color: #EECEB9;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: .1rem .1rem 10px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        .inputBox {
+            background-color: #FEFBD8;
+            border-color: #caaf9c;
+            border-style: solid;
+        }
+
+        .submitButton {
+            background-color: #FEFBD8;
+            border-color: #caaf9c;
+            border-style: solid;
+            display: inline-block;
+            padding: 1rem;
+            padding-top: .25rem;
+            padding-bottom: .25rem;
+            border-radius: 2rem;
+            user-select: none;
+            cursor: pointer;
+        }
+
+        .submitButton:hover {
+            border-color: #3d352f;
+            background-color: #a08a7b;
+            color: white;
+        }
+
+        .errorText {
+            font-size: x-small;
+            color: red;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="topDiv">
+        <h1 class="nartyMsg">Welcome to the Narty (Node Party)</h1>
+        <p class="toolsDropdown">Tools</p>
+    </div>
+
+    <div class="toolsDropdownDiv hidden">
+        <span></span>
+        <div>
+            <p class="homeButton click">Home</p>
+        </div>
+        <div>
+            <p class="newPostButton click">+ New Post</p>
+        </div>
+        <div>
+            <p class="searchButton click">Search</p>
+        </div>
+        <div>
+            <p class="aboutButton click">About</p>
+        </div>
+        <span></span>
+    </div>
+
+
+    <div class="mainContainer">
+        <h1>Post Form</h1>
+        <p>Post Title</p>
+        <input class="inputBox postTitle" type="text" style="width: 95%; margin-right: auto;">
+        <p>Post Text:</p>
+        <textarea class="inputBox postText" name="" id="" cols="30" rows="15" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; resize: none; width: 95%; margin-right: auto; overflow: hidden scroll; scrollbar-color: #EECEB9; scrollbar-base-color: #917d70;"></textarea>
+        <p>Post Image</p>
+        <input class="postImage" style="cursor: pointer; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" type="file" accept="image/*">
+        <p>Signature</p>
+        <input class="postSignature inputBox" type="text">
+        <br>
+        <br>
+        <p class="submitButton">Submit</p>
+    </div>
+
+    <script>
+
+        function isDevice() {
+            return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(navigator.userAgent);
+        }
+
+
+        document.querySelector('.toolsDropdown').addEventListener("click", () => {
+            document.querySelector('.toolsDropdownDiv').classList.toggle('hidden')
+        });
+
+        document.querySelector('.homeButton').addEventListener("click", () => {
+            location.href = '/home'
+        });
+
+        document.querySelector('.newPostButton').addEventListener("click", () => {
+            location.href = '/new-post'
+        });
+
+        document.querySelector('.searchButton').addEventListener("click", () => {
+            location.href = '/search'
+        });
+
+        document.querySelector('.aboutButton').addEventListener("click", () => {
+            location.href = '/about'
+        });
+
+        if (isDevice()) {
+            document.querySelector('.toolsDropdown').textContent = "☰"
+            document.querySelector('.toolsDropdown').style.fontSize = "2rem"
+            document.querySelector('.toolsDropdown').style.marginTop = "0"
+        }
+
+    </script>
+
+    <script>
+
+        let responseText
+
+        function contentPoster(inpPostID, inpTitle, inpText, inpImage, inpSignature){
+            console.log(inpImage)
+            fetch(`/posts/${inpPostID}`, {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    postTitle: inpTitle,
+                    postText: inpText,
+                    postImage: inpImage,
+                    postSignature: inpSignature
+                })
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                alert(data.message)
+                if (data.ok) {
+                    window.location.href = 'home';
+                }
+            }).catch(error => {
+            console.error('Error:', error);
+            });
+        };
+
+        function readFileAsBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const base64String = e.target.result.split(',')[1];
+                    resolve(base64String);
+                };
+
+                reader.onerror = function(error) {
+                    reject(error);
+                };
+
+                reader.readAsDataURL(file);
+            });
+        }
+
+        document.querySelector('.submitButton').addEventListener('click', () => {
+
+            let currentDate = new Date();
+            let day = currentDate.getDate();
+            let month = currentDate.getMonth() + 1; // Month is zero-indexed, so we add 1
+            let year = currentDate.getFullYear();
+
+            let randomValue = Math.floor(Math.random() * 1000000);
+
+            let title = document.querySelector('.postTitle').value;
+            let text = document.querySelector('.postText').value;
+
+            let signature = document.querySelector('.postSignature').value || "Anonymous";
+
+            // Handle Image Pull
+            let image = false
+            let imageInput = document.querySelector('.postImage').files[0];
+            if (imageInput) {
+                readFileAsBase64(imageInput).then(base64String => {
+                    // Handle the Base64 string outside the FileReader
+                    image = base64String;
+                    console.log("Base64 image:", image);
+
+                    let postID = `M${month}D${day}Y${year}.~.S${signature}.~.T${title}.~.ID${randomValue}`;
+                    console.log(postID)
+
+                    contentPoster(postID, title, text, image, signature);
+                }).catch(error => {
+                    console.error('Error reading file:', error);
+                });
+            } else {
+                let postID = `M${month}D${day}Y${year}.~.S${signature}.~.T${title}.~.ID${randomValue}`;
+                console.log(postID)
+
+                contentPoster(postID, title, text, image, signature);
+            }
+
+        });
+
+    </script>
+
+    <script>
+        function multiClassModifier(className, classAdd, classRem) {
+            let items = document.querySelectorAll(className); // Use querySelectorAll with the class selector
+            items.forEach(item => {
+                item.classList.remove(classRem); // Remove the class to be removed
+                item.classList.add(classAdd); // Add the class to be added
+            });
+        };
+
+        function isDevice() {
+            return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(navigator.userAgent);
+        }
+
+        if(isDevice()) {
+            multiClassModifier('h1', 'mobileFont')
+            multiClassModifier('p', 'mobileFont')
+        }
+    </script>
+
+</body>
+</html>

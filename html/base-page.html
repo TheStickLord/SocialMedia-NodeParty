@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <style>
+        .sampleColors {
+            color: white;
+            /* https://colorhunt.co/palette/987d9abb9ab1eeceb9fefbd8 */
+            /* #987D9A */
+            /* #BB9AB1 */
+            /* #EECEB9 */
+            /* #FEFBD8 */
+        }
+
+        body {
+            padding: 0;
+            margin: 0;
+            background-color: #BB9AB1;
+        }
+
+        h1 {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: inline-block;
+        }
+
+        p {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  
+        }
+
+        .mobileFont {
+            font-size: small;
+        }
+
+        .nartyMsg {
+            display: inline-block;
+            user-select: none;
+        }
+
+        .topDiv {
+            background-color: #987D9A;
+            padding: .5rem;
+            color: white; 
+            top: 0;
+            position: sticky;
+            height: 3rem;
+            z-index: 5;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+
+        .toolsDropdown {
+            color: white;
+            display: inline-block;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .toolsDropdownDiv {
+            position: sticky;
+            top: 4rem;
+            background-color: #816a83;
+            height: 5rem;
+            width: 100%;
+            z-index: 1;
+            animation: dropdownScaling .5s;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        @keyframes dropdownScaling {
+            0% {
+                height: 0;
+            }
+            100% {
+                height: 5rem;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .click {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .toolsButtonPush {
+            margin-left: 10px;
+        }
+
+        .homeButton {
+            color: white;
+            margin: 0;
+            margin-top: 1.75rem;
+            animation: marginPushdown .5s;
+        }
+
+        .newPostButton {
+            color: white;
+            margin: 0;
+            margin-top: 1.75rem;
+            animation: marginPushdown .5s;
+        }
+
+        .searchButton {
+            color: white;
+            margin: 0; 
+            margin-top: 1.75rem;  
+            animation: marginPushdown .5s;
+        }
+
+        .aboutButton {
+            color: white;
+            margin: 0; 
+            margin-top: 1.75rem;  
+            animation: marginPushdown .5s;
+        }
+
+        @keyframes marginPushdown {
+            0% {
+                margin-top: 0;
+                color: rgba(255, 255, 255, 0);
+            }
+            100% {
+                margin-top: 1.75rem;
+                color: white;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="topDiv">
+        <h1 class="nartyMsg">Welcome to the Narty (Node Party)</h1>
+        <p class="toolsDropdown">Tools</p>
+    </div>
+
+    <div class="toolsDropdownDiv hidden">
+        <span></span>
+        <div>
+            <p class="homeButton click">Home</p>
+        </div>
+        <div>
+            <p class="newPostButton click">+ New Post</p>
+        </div>
+        <div>
+            <p class="searchButton click">Search</p>
+        </div>
+        <div>
+            <p class="aboutButton click">About</p>
+        </div>
+        <span></span>
+    </div>
+
+
+    <div class="mainContainer">
+
+    </div>
+
+
+    <script>
+
+        function isDevice() {
+            return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(navigator.userAgent);
+        }
+
+
+        document.querySelector('.toolsDropdown').addEventListener("click", () => {
+            document.querySelector('.toolsDropdownDiv').classList.toggle('hidden')
+        });
+
+        document.querySelector('.homeButton').addEventListener("click", () => {
+            location.href = '/home'
+        });
+
+        document.querySelector('.newPostButton').addEventListener("click", () => {
+            location.href = '/new-post'
+        });
+
+        document.querySelector('.searchButton').addEventListener("click", () => {
+            location.href = '/search'
+        });
+
+        document.querySelector('.aboutButton').addEventListener("click", () => {
+            location.href = '/about'
+        });
+
+        if (isDevice()) {
+            document.querySelector('.toolsDropdown').textContent = "☰"
+            document.querySelector('.toolsDropdown').style.fontSize = "2rem"
+            document.querySelector('.toolsDropdown').style.marginTop = "0"
+        }
+
+    </script>
+
+    <script>
+        function multiClassModifier(className, classAdd, classRem) {
+            let items = document.querySelectorAll(className); // Use querySelectorAll with the class selector
+            items.forEach(item => {
+                item.classList.remove(classRem); // Remove the class to be removed
+                item.classList.add(classAdd); // Add the class to be added
+            });
+        };
+
+        function isDevice() {
+            return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(navigator.userAgent);
+        }
+
+        if(isDevice()) {
+            multiClassModifier('h1', 'mobileFont')
+            multiClassModifier('p', 'mobileFont')
+        }
+    </script>
+
+</body>
+</html>

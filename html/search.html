@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Narty Search</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <style>
+        .sampleColors {
+            color: white;
+            /* https://colorhunt.co/palette/987d9abb9ab1eeceb9fefbd8 */
+            /* #987D9A */
+            /* #BB9AB1 */
+            /* #EECEB9 */
+            /* #FEFBD8 */
+        }
+
+        body {
+            padding: 0;
+            margin: 0;
+            background-color: #BB9AB1;
+        }
+
+        h1 {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: inline-block;
+        }
+
+        p {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  
+        }
+
+        .label {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            color: lightslategray; 
+        }
+
+        .mobileFont {
+            font-size: small;
+        }
+
+        .nartyMsg {
+            display: inline-block;
+            user-select: none;
+        }
+
+        .topDiv {
+            background-color: #987D9A;
+            padding: .5rem;
+            color: white; 
+            top: 0;
+            position: sticky;
+            height: 3rem;
+            z-index: 5;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+
+        .toolsDropdown {
+            color: white;
+            display: inline-block;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .toolsDropdownDiv {
+            position: sticky;
+            top: 4rem;
+            background-color: #816a83;
+            height: 5rem;
+            width: 100%;
+            z-index: 1;
+            animation: dropdownScaling .5s;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        @keyframes dropdownScaling {
+            0% {
+                height: 0;
+            }
+            100% {
+                height: 5rem;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .click {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .homeButton {
+            color: white;
+            margin: 0;
+            margin-top: 1.75rem;
+            animation: marginPushdown .5s;
+        }
+
+        .newPostButton {
+            color: white;
+            margin: 0;
+            margin-top: 1.75rem;
+            animation: marginPushdown .5s;
+        }
+
+        .searchButton {
+            color: white;
+            margin: 0; 
+            margin-top: 1.75rem;  
+            animation: marginPushdown .5s;
+        }
+
+        .aboutButton {
+            color: white;
+            margin: 0; 
+            margin-top: 1.75rem;  
+            animation: marginPushdown .5s;
+        }
+
+        @keyframes marginPushdown {
+            0% {
+                margin-top: 0;
+                color: rgba(255, 255, 255, 0);
+            }
+            100% {
+                margin-top: 1.75rem;
+                color: white;
+            }
+        }
+
+        .mainContainer {
+            margin: 2rem;
+            padding: 1rem;
+            background-color: #EECEB9;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: .1rem .1rem 10px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        .searchContainer {
+            background-color: white;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+
+        .searchBox {
+            border-radius: 1rem;
+            border-width: 1px;
+            border-style: solid;
+            border-color: lightslategray;
+            padding-left: 10px;
+        }
+
+        .searchItemsContainer {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 5px; 
+            top: 0;
+            left: 0;
+            transform: translate(0%, 50%);
+            padding-left: 10%;
+            padding-right: 10%;
+        }
+
+        .submitButton {
+            color: lightslategray;
+            border: none;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+            border-radius: 2rem;
+            font-size: larger;
+            padding: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .mainContainer {
+            margin: 2rem;
+            padding: 1rem;
+            background-color: #EECEB9;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: .1rem .1rem 10px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        .imageContent {
+            max-width: 90%;
+            object-fit: contain;
+            border-style: solid;
+            max-height: 30rem;
+            background-color: white;
+        }
+
+        .sigContent {
+            font-family: cursive;
+        }
+
+        .contentBlock {
+            margin: 2rem;
+            padding: 1rem;
+            background-color: #EECEB9;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: .1rem .1rem 10px rgba(0,0,0,0.5);
+            overflow: hidden;
+            max-height: 50rem
+
+        }
+
+        .internalContentBlock {
+            margin-top: 1rem;
+            background-color: #FEFBD8;
+            overflow: clip;
+            border-style: solid;
+            border-color: #FEFBD8;
+            border-left-width: .5rem;
+            border-right-width: .5rem;
+        }
+
+        .loadingCircle {
+            width: 20px;
+            height: 20px;
+            border-radius: 20rem;
+            border-color: #BB9AB1;
+            border-top: #987D9A;
+            border-width: 5px;
+            border-style: solid;
+            animation: spinning 2s ease infinite, scaleInCircle 1s;
+        }
+
+        @keyframes spinning {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="topDiv">
+        <h1 class="nartyMsg">Welcome to the Narty (Node Party)</h1>
+        <p class="toolsDropdown">Tools</p>
+    </div>
+
+    <div class="toolsDropdownDiv hidden">
+        <span></span>
+        <div>
+            <p class="homeButton click">Home</p>
+        </div>
+        <div>
+            <p class="newPostButton click">+ New Post</p>
+        </div>
+        <div>
+            <p class="searchButton click">Search</p>
+        </div>
+        <div>
+            <p class="aboutButton click">About</p>
+        </div>
+        <span></span>
+    </div>
+
+    <div class="mainContainer">
+        <div class="searchContainer">
+            <div style="text-align: center; padding: 2rem; padding-bottom: 5rem;">
+                <span style="color: lightslategray;"><h1 class="nartySearchText">'</h1></span>
+                <span style="color: #4D81EE;"><h1 class="nartySearchText" style="margin: -2px;">N</h1></span>
+                <span style="color: #DD1A3A;"><h1 class="nartySearchText" style="margin: -2px;">a</h1></span>
+                <span style="color: #F5C228;"><h1 class="nartySearchText" style="margin: -2px;">r</h1></span>
+                <span style="color: #4D81EE;"><h1 class="nartySearchText" style="margin: -2px;">t</h1></span>
+                <span style="color: #24BF5A;"><h1 class="nartySearchText" style="margin: -2px;">y</h1></span>
+                <span style="color: lightslategray;"><h1 class="nartySearchText">&nbsp;Search</h1></span>
+            </div>
+            
+            <div class="searchItemsContainer">
+                <span class="label">Title:</span>
+                <input type="text" class="searchBox searchTitle">
+                <span class="label">Date Created:</span>
+                <input type="date" class="searchBox searchDate">
+                <span class="label">Signature:</span>
+                <input type="text" class="searchBox searchSig">
+            </div>
+
+            <div style="padding-top: 8rem; text-align: center;">
+                <button class="submitButton click">Search</button>
+            </div>
+
+            <br>
+            <p style="text-align: center; font-size: small; color: red;">Be aware... new posts may not show up!</p>
+            <br>
+
+        </div>
+    </div>
+
+    <br class="brPadding">
+
+    <div class="loadingCircle hidden" style="margin: auto; height: 3rem; width: 3rem;"></div>
+
+    <script>
+
+        function isDevice() {
+            return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(navigator.userAgent);
+        }
+
+
+        document.querySelector('.toolsDropdown').addEventListener("click", () => {
+            document.querySelector('.toolsDropdownDiv').classList.toggle('hidden')
+        });
+
+        document.querySelector('.homeButton').addEventListener("click", () => {
+            location.href = '/home'
+        });
+
+        document.querySelector('.newPostButton').addEventListener("click", () => {
+            location.href = '/new-post'
+        });
+
+        document.querySelector('.searchButton').addEventListener("click", () => {
+            location.href = '/search'
+        });
+
+        document.querySelector('.aboutButton').addEventListener("click", () => {
+            location.href = '/about'
+        });
+
+        if (isDevice()) {
+            document.querySelector('.toolsDropdown').textContent = "☰"
+            document.querySelector('.toolsDropdown').style.fontSize = "2rem"
+            document.querySelector('.toolsDropdown').style.marginTop = "0"
+        }
+
+    </script>
+
+    <script>
+        function multiClassModifier(className, classAdd, classRem) {
+            let items = document.querySelectorAll(className); // Use querySelectorAll with the class selector
+            items.forEach(item => {
+                item.classList.remove(classRem); // Remove the class to be removed
+                item.classList.add(classAdd); // Add the class to be added
+            });
+        };
+
+        function isDevice() {
+            return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(navigator.userAgent);
+        }
+
+        if(isDevice()) {
+            document.querySelector('.nartyMsg').classList.add('mobileFont')
+            multiClassModifier('p', 'mobileFont')
+        }
+    </script>
+
+    <script>
+
+        function newPostBlock(title, text, image, sig) {
+
+            const brPadding = document.querySelector(".brPadding")
+
+            const newContentBlock = document.createElement("div");
+            newContentBlock.classList.add("contentBlock");
+
+            const newTitle = document.createElement("h1");
+
+            newTitle.classList.add("click");
+            newTitle.textContent = title;
+
+            const newSig = document.createElement("p");
+            newSig.classList.add("sigContent");
+            newSig.textContent = "- " + sig;
+
+            const newInternalContentBlock = document.createElement("div");
+            newInternalContentBlock.classList.add("internalContentBlock");
+
+            const newTextContent = document.createElement("p");
+            newTextContent.textContent = text;
+
+            if (isDevice()){
+                newTitle.classList.add("mobileFont");
+                newTextContent.classList.add("mobileFont");
+                newSig.classList.add("mobileFont");
+            }
+
+            newContentBlock.appendChild(newTitle);
+            newContentBlock.appendChild(newSig);
+            newContentBlock.appendChild(newInternalContentBlock);
+            newInternalContentBlock.appendChild(newTextContent);
+
+            if (image) {
+                const newImageContent = document.createElement("img");
+                newImageContent.classList.add("imageContent");
+                newImageContent.src = `data:image/png;base64, ${image}`; 
+                newInternalContentBlock.appendChild(newImageContent);
+            }
+
+            document.body.insertBefore(newContentBlock, brPadding);
+        };
+
+        function postSpawner(post) {
+            fetch("/posts/" + post)
+                .then(response => {
+                    if(!response.ok){
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    newPostBlock(data.data.postTitle, data.data.postText, data.data.postImage, data.data.postSignature)
+                })
+                .catch(error => {
+                    console.log('Error:', error)
+                });
+        }
+
+        document.querySelector('.submitButton').addEventListener('click', () => {
+            dateData = document.querySelector('.searchDate').value
+            sigData = document.querySelector('.searchSig').value
+            titleData = document.querySelector('.searchTitle').value
+
+            let dateDataFormated;
+            let sigDataFormated;
+            let titleDataFormated;
+
+            if (dateData) {
+                dateData = dateData.split('-')
+
+                if (dateData[1].charAt(0) == "0") {
+                    dateData[1] = dateData[1].slice(1)
+                }
+                if (dateData[2].charAt(0) == "0") {
+                    dateData[2] = dateData[2].slice(1)
+                }
+
+                dateDataFormated = `M${dateData[1]}D${dateData[2]}Y${dateData[0]}`
+            } else {
+                dateDataFormated = undefined
+            }
+
+            if (sigData) {
+                sigDataFormated = `S${sigData}`
+            } else {
+                sigDataFormated = undefined
+            }
+
+            if (titleData) {
+                titleDataFormated = `T${titleData}`
+            } else {
+                titleDataFormated = undefined
+            }
+
+            if (dateData || sigData || titleData) {
+                document.querySelector('.mainContainer').classList.add('hidden')
+                document.querySelector('.loadingCircle').classList.remove('hidden')
+
+                searchQuery = `${dateDataFormated}.~.${sigDataFormated}.~.${titleDataFormated}`
+
+                console.log(searchQuery)
+
+                fetch("/search/" + searchQuery)
+                    .then(response => {
+                        if(!response.ok){
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        return response.json();
+                    }).then(data => {
+                        console.log(data.matchingPosts)
+                        
+                        if (data.matchingPosts != "No Posts" && data.matchingPosts) {
+                            data.matchingPosts.forEach(post => {
+                                postSpawner(post);
+                            });
+                            document.querySelector('.loadingCircle').classList.add('hidden')
+                        } else if(data.matchingPosts) {
+                            alert('No posts matched your description... \n\nTry checking the homepage for newer posts, or double check your parameters!')
+                            document.querySelector('.loadingCircle').classList.add('hidden')
+                            document.querySelector('.mainContainer').classList.remove('hidden')
+                        } else {
+                            alert('Server is having issues... please try again later...')
+                            window.location.href = 'home';
+                        }
+ 
+                    }).catch(error => {
+                        console.log('Error:', error)
+                });
+            } else {
+                alert("Must have at least 1 parameter!")
+            }
+
+        });
+    </script>
+
+</body>
+</html>

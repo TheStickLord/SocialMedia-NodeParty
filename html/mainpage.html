@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <style>
+        .sampleColors {
+            color: white;
+            /* https://colorhunt.co/palette/987d9abb9ab1eeceb9fefbd8 */
+            /* #987D9A */
+            /* #BB9AB1 */
+            /* #EECEB9 */
+            /* #FEFBD8 */
+        }
+
+        body {
+            padding: 0;
+            margin: 0;
+            background-color: #BB9AB1;
+        }
+
+        h1 {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: inline-block;
+        }
+
+        p {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  
+        }
+
+        .mobileFont {
+            font-size: small;
+        }
+
+        .nartyMsg {
+            display: inline-block;
+            user-select: none;
+        }
+
+        .topDiv {
+            background-color: #987D9A;
+            padding: .5rem;
+            color: white; 
+            top: 0;
+            position: sticky;
+            height: 3rem;
+            z-index: 5;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+
+        .contentBlock {
+            margin: 2rem;
+            padding: 1rem;
+            background-color: #EECEB9;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: .1rem .1rem 10px rgba(0,0,0,0.5);
+            overflow: hidden;
+            max-height: 50rem
+
+        }
+
+        .internalContentBlock {
+            margin-top: 1rem;
+            background-color: #FEFBD8;
+            overflow: clip;
+            border-style: solid;
+            border-color: #FEFBD8;
+            border-left-width: .5rem;
+            border-right-width: .5rem;
+        }
+
+        .loadingCircle {
+            width: 20px;
+            height: 20px;
+            border-radius: 20rem;
+            border-color: #BB9AB1;
+            border-top: #987D9A;
+            border-width: 5px;
+            border-style: solid;
+            animation: spinning 2s ease infinite, scaleInCircle 1s;
+        }
+
+        @keyframes spinning {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loadingGradient {
+            color: transparent;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
+            animation: gradientAnim 2s infinite;
+        }
+
+        @keyframes gradientAnim {
+           0% {
+            text-shadow: 0 0 5px #eec3a6e1
+           } 
+           50% {
+            text-shadow: 0 0 5px #b6b17ed8
+           }
+           100% {
+            text-shadow: 0 0 5px #eec3a6e1
+           } 
+        }
+
+        .toolsDropdown {
+            color: white;
+            display: inline-block;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .toolsDropdownDiv {
+            position: sticky;
+            top: 4rem;
+            background-color: #816a83;
+            height: 5rem;
+            width: 100%;
+            z-index: 1;
+            animation: dropdownScaling .5s;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        @keyframes dropdownScaling {
+            0% {
+                height: 0;
+            }
+            100% {
+                height: 5rem;
+            }
+        }
+
+        @keyframes scaleInCircle {
+            0% {
+                height: 0;
+                width: 0;
+            }
+            100% {
+                height: 3rem;
+                width: 3rem;
+            } 
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .click {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .homeButton {
+            color: white;
+            margin: 0;
+            margin-top: 1.75rem;
+            animation: marginPushdown .5s;
+        }
+
+        .newPostButton {
+            color: white;
+            margin: 0;
+            margin-top: 1.75rem;
+            animation: marginPushdown .5s;
+        }
+
+        .searchButton {
+            color: white;
+            margin: 0; 
+            margin-top: 1.75rem;  
+            animation: marginPushdown .5s;
+        }
+
+        .aboutButton {
+            color: white;
+            margin: 0; 
+            margin-top: 1.75rem;  
+            animation: marginPushdown .5s;
+        }
+
+        @keyframes marginPushdown {
+            0% {
+                margin-top: 0;
+                color: rgba(255, 255, 255, 0);
+            }
+            100% {
+                margin-top: 1.75rem;
+                color: white;
+            }
+        }
+
+        .mainContainer {
+            margin: 2rem;
+            padding: 1rem;
+            background-color: #EECEB9;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: .1rem .1rem 10px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        .imageContent {
+            max-width: 90%;
+            object-fit: contain;
+            border-style: solid;
+            max-height: 30rem;
+            background-color: white;
+        }
+
+        .sigContent {
+            font-family: cursive;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="topDiv">
+        <h1 class="nartyMsg">Welcome to the Narty (Node Party)</h1>
+        <p class="toolsDropdown">Tools</p>
+    </div>
+
+    <div class="toolsDropdownDiv hidden">
+        <span></span>
+        <div>
+            <p class="homeButton click">Home</p>
+        </div>
+        <div>
+            <p class="newPostButton click">+ New Post</p>
+        </div>
+        <div>
+            <p class="searchButton click">Search</p>
+        </div>
+        <div>
+            <p class="aboutButton click">About</p>
+        </div>
+        <span></span>
+    </div>
+
+    <div class="contentBlock">
+        <h1 class="post0-Title click loadingGradient">Loading...</h1>
+        <p class="post0-Sig sigContent loadingGradient">Loading</p>
+        <div class="internalContentBlock">
+            <p class="post0-TextContent loadingGradient">Loading...</p>
+            <img class="post0Img imageContent hidden" src="" alt="">
+        </div>
+    </div>
+
+    <div class="contentBlock">
+        <h1 class="post1-Title click loadingGradient">Loading...</h1>
+        <p class="post1-Sig sigContent loadingGradient">Loading</p>
+        <div class="internalContentBlock">
+            <p class="post1-TextContent loadingGradient">Loading...</p>
+            <img class="post1Img imageContent hidden" src="" alt="">
+        </div>
+    </div>
+
+    <div class="contentBlock">
+        <h1 class="post2-Title click loadingGradient">Loading...</h1>
+        <p class="post2-Sig sigContent loadingGradient">Loading</p>
+        <div class="internalContentBlock">
+            <p class="post2-TextContent loadingGradient">Loading...</p>
+            <img class="post2Img imageContent hidden" src="" alt="">
+        </div>
+    </div>
+
+    <div class="contentBlock">
+        <h1 class="post3-Title click loadingGradient">Loading...</h1>
+        <p class="post3-Sig sigContent loadingGradient">Loading</p>
+        <div class="internalContentBlock">
+            <p class="post3-TextContent loadingGradient">Loading...</p>
+            <img class="post3Img imageContent hidden" src="" alt="">
+        </div>
+    </div>
+
+    <div class="contentBlock">
+        <h1 class="post4-Title click loadingGradient">Loading...</h1>
+        <p class="post4-Sig sigContent loadingGradient">Loading</p>
+        <div class="internalContentBlock">
+            <p class="post4-TextContent loadingGradient">Loading...</p>
+            <img class="post4Img imageContent hidden" src="" alt="">
+        </div>
+    </div>
+
+
+    <div class="loadingCircle hidden idLoadingEOP" style="margin: auto; height: 3rem; width: 3rem;"></div>
+
+    <div class="mobilePaddingDiv hidden" style="height: 1rem;"></div>
+    
+    <p style="text-align: center; color: white;" class="nartyGnomes1 hidden">Looks like someone loves their scrolling!</p>
+    <p style="text-align: center; color: white;" class="nartyGnomes2 hidden">Give the 'narty gnomes a minute to find more posts!</p>
+
+    <br>
+    <br>
+    
+    <script>
+
+        function isDevice() {
+            return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(navigator.userAgent);
+        }
+
+
+        document.querySelector('.toolsDropdown').addEventListener("click", () => {
+            document.querySelector('.toolsDropdownDiv').classList.toggle('hidden')
+        });
+
+        document.querySelector('.homeButton').addEventListener("click", () => {
+            location.href = '/home'
+        });
+
+        document.querySelector('.newPostButton').addEventListener("click", () => {
+            location.href = '/new-post'
+        });
+
+        document.querySelector('.searchButton').addEventListener("click", () => {
+            location.href = '/search'
+        });
+
+        document.querySelector('.aboutButton').addEventListener("click", () => {
+            location.href = '/about'
+        });
+
+        if (isDevice()) {
+            document.querySelector('.toolsDropdown').textContent = "☰"
+            document.querySelector('.toolsDropdown').style.fontSize = "2rem"
+            document.querySelector('.toolsDropdown').style.marginTop = "0"
+        }
+
+    </script>
+
+    <script>
+        function multiClassModifier(className, classAdd, classRem) {
+            let items = document.querySelectorAll(className); // Use querySelectorAll with the class selector
+            items.forEach(item => {
+                item.classList.remove(classRem); // Remove the class to be removed
+                item.classList.add(classAdd); // Add the class to be added
+            });
+        };
+
+        function isDevice() {
+            return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(navigator.userAgent);
+        }
+
+        if(isDevice()) {
+            multiClassModifier('h1', 'mobileFont')
+            multiClassModifier('p', 'mobileFont')
+        }
+    </script>
+
+    <script>
+
+        let postData = {
+            post0: '',
+            post1: '',
+            post2: '',
+            post3: '',
+            post4: ''
+        }
+
+        function initPostSetter() {
+
+            let iterate = 0
+
+            topPosts.postTitles.forEach(post => {
+                fetch("/posts/new-posts/" + post)
+                .then(response => {
+                    if(!response.ok){
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    postData["post" + iterate] = data.data
+                    console.log(`Data loaded for: ${data.data.postTitle}`)
+                    iterate++;
+                })
+                .then(() => {
+                    for (let key in postData) {
+                    if (postData.hasOwnProperty(key) && postData[key]) { // Ensuring key belongs to user object, not inherited
+                        document.querySelector(`.${key}-Title`).textContent = postData[key].postTitle;
+                        document.querySelector(`.${key}-TextContent`).textContent = postData[key].postText;
+                        document.querySelector(`.${key}-Sig`).textContent = "- " + postData[key].postSignature;
+                        document.querySelector(`.${key}-Title`).classList.remove('loadingGradient')
+                        document.querySelector(`.${key}-TextContent`).classList.remove('loadingGradient')
+                        document.querySelector(`.${key}-Sig`).classList.remove('loadingGradient')
+                        if (postData[key].postImage) {
+                            document.querySelector(`.${key}Img`).classList.remove('hidden')
+                            document.querySelector(`.${key}Img`).src = `data:image/png;base64, ${postData[key].postImage}`
+                        }
+                    } else {
+                        document.querySelector(`.${key}-Title`).textContent = "No Post Data";
+                        document.querySelector(`.${key}-TextContent`).textContent = "You've reached the end of the 'narty";
+                        document.querySelector(`.${key}-Title`).classList.remove('loadingGradient')
+                        document.querySelector(`.${key}-TextContent`).classList.remove('loadingGradient')
+                    }
+                    };
+                })
+                .catch(error => {
+                    console.log('Error:', error)
+                });
+            });
+        };
+
+        let topPosts;
+
+        fetch("/posts/new-posts/")
+            .then(response => {
+                if(!response.ok){
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                topPosts = data
+
+                initPostSetter()
+
+            }).catch(error => {
+                console.log('Error:', error)
+        });
+        
+    </script>
+
+    <script>
+
+        postIndex = -1
+
+        function isDevice() {
+            return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(navigator.userAgent);
+        }
+
+        if (isDevice()){
+            document.querySelector(".mobilePaddingDiv").classList.remove("hidden")
+        }
+
+        function funnyTextSetter(input) {
+            if (input) {
+                document.querySelector(".idLoadingEOP").classList.remove("hidden");
+                document.querySelector(".nartyGnomes1").classList.remove("hidden");
+                document.querySelector(".nartyGnomes2").classList.remove("hidden");
+            } else {
+                document.querySelector(".idLoadingEOP").classList.add("hidden");
+                document.querySelector(".nartyGnomes1").classList.add("hidden");
+                document.querySelector(".nartyGnomes2").classList.add("hidden");
+            }
+        }
+
+        let newPosts;
+
+        fetch("/posts/")
+            .then(response => {
+                if(!response.ok){
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                newPosts = data.postTitles;
+                console.log(`Available Posts: ${newPosts.length}`)
+            })
+            .catch(error => {
+                console.log('Error:', error)
+        });
+
+        function newPostBlock(title, text, image, sig) {
+
+            const loadingCircleElement = document.querySelector(".idLoadingEOP")
+
+            const newContentBlock = document.createElement("div");
+            newContentBlock.classList.add("contentBlock");
+
+            const newTitle = document.createElement("h1");
+
+            newTitle.classList.add("click");
+            newTitle.textContent = title;
+
+            const newSig = document.createElement("p");
+            newSig.classList.add("sigContent");
+            newSig.textContent = "- " + sig;
+
+            const newInternalContentBlock = document.createElement("div");
+            newInternalContentBlock.classList.add("internalContentBlock");
+
+            const newTextContent = document.createElement("p");
+            newTextContent.textContent = text;
+
+            if (isDevice()){
+                newTitle.classList.add("mobileFont");
+                newTextContent.classList.add("mobileFont");
+                newSig.classList.add("mobileFont");
+            }
+            
+            newContentBlock.appendChild(newTitle);
+            newContentBlock.appendChild(newSig);
+            newContentBlock.appendChild(newInternalContentBlock);
+            newInternalContentBlock.appendChild(newTextContent);
+
+            if (image) {
+                const newImageContent = document.createElement("img");
+                newImageContent.classList.add("imageContent");
+                newImageContent.src = `data:image/png;base64, ${image}`; 
+                newInternalContentBlock.appendChild(newImageContent);
+            }
+
+            document.body.insertBefore(newContentBlock, loadingCircleElement);
+        };
+
+        window.addEventListener('scroll', () => {
+            // Get the total height of the document
+            const documentHeight = document.documentElement.scrollHeight;
+            // Get the current scroll position
+            const scrollTop = window.scrollY || window.pageYOffset;
+            // Get the height of the viewport
+            const viewportHeight = window.innerHeight;
+
+            // Check if we are at the bottom of the page
+            if (scrollTop + viewportHeight >= documentHeight - 10) { // Using a small buffer (10px) to ensure accuracy
+                funnyTextSetter(true)
+                postIndex++
+                if (!(postIndex >= newPosts.length)) {
+                    fetch("/posts/" + newPosts[postIndex])
+                        .then(response => {
+                            if(!response.ok){
+                                throw new Error(`HTTP error! Status: ${response.status}`);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            newPostBlock(data.data.postTitle, data.data.postText, data.data.postImage, data.data.postSignature)
+                            console.log("Data loaded for " + data.data.postTitle)
+                            funnyTextSetter(false)
+                        })
+                        .catch(error => {
+                            console.log('Error:', error)
+                        });
+                    } else {
+                        document.querySelector(".idLoadingEOP").classList.add("hidden");
+                        document.querySelector(".nartyGnomes1").classList.remove("hidden");
+                        document.querySelector(".nartyGnomes2").classList.remove("hidden");
+                        document.querySelector(".nartyGnomes1").textContent = "You lazy turd!";
+                        document.querySelector(".nartyGnomes2").textContent = "You reached the END of the 'narty!";
+                    }
+                }
+        });
+    </script>
+
+</body>
+</html>
