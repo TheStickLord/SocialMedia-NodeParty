@@ -13,7 +13,6 @@ const workingDir = __dirname
 
 // This webserver is a janky social media site with a front page, posting page, and a search tool
 
-
 // Function to read directories and spit out a list sorted by date
 async function listFilesSortedByDate(directory) {
     try {
@@ -50,6 +49,10 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 // Sets API to listen on port 3000
 app.listen(3000, ()=>{
     console.log(`Server running at http://localhost:3000/`);
+
+    // Ensures both allPosts and newPosts exist on startup
+    fs.mkdirSync("./content/allPosts", { recursive: true });
+    fs.mkdirSync("./content/newPosts", { recursive: true });
 });
 
 // Below are all the static pages you can access! These include home/main, new-post, search, about, and the favicon
